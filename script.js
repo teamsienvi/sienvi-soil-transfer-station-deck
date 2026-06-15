@@ -56,6 +56,7 @@ function activateSlide(index, options = {}) {
   updateHud(nextIndex);
   syncHash(nextIndex);
   slides[nextIndex].scrollTop = 0;
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
   if (instant) {
     window.requestAnimationFrame(() => {
