@@ -834,6 +834,11 @@ button {
   transform: translateY(0);
 }
 
+.is-instant .slide,
+.is-instant .slide .animate {
+  transition: none !important;
+}
+
 @media (max-width: 1024px) {
   :root {
     --stage-height: min(calc(100vh - 84px), 920px);
