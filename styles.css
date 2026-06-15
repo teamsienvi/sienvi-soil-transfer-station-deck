@@ -219,6 +219,7 @@ button {
 .deck-stage {
   position: relative;
   height: var(--stage-height);
+  min-height: 0;
 }
 
 .slide {
@@ -244,6 +245,7 @@ button {
     transform 420ms ease,
     visibility 420ms ease;
   overflow: auto;
+  touch-action: pan-y;
 }
 
 .slide::before {
@@ -865,11 +867,17 @@ button {
 
 @media (max-width: 900px) {
   body {
-    overflow: auto;
+    overflow: hidden;
   }
 
   .deck-shell {
-    grid-template-columns: 1fr;
+    display: block;
+    min-height: 100dvh;
+    height: 100dvh;
+    padding:
+      calc(max(12px, env(safe-area-inset-top)) + 96px)
+      12px
+      calc(max(12px, env(safe-area-inset-bottom)) + 82px);
   }
 
   .deck-rail {
@@ -877,90 +885,93 @@ button {
   }
 
   .deck-stage {
-    height: auto;
-    display: grid;
-    gap: 18px;
+    height: 100%;
   }
 
   .slide {
-    position: relative;
-    inset: auto;
     padding:
-      clamp(126px, 18vw, 150px)
-      clamp(20px, 5vw, 28px)
-      clamp(108px, 16vw, 130px);
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    pointer-events: auto;
-    min-height: auto;
+      22px
+      18px
+      34px;
+    border-radius: 24px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .slide[data-title="Title"] {
     padding:
-      clamp(176px, 24vw, 212px)
-      clamp(20px, 5vw, 28px)
-      clamp(108px, 16vw, 130px);
+      22px
+      18px
+      34px;
   }
 
   .controls {
-    position: sticky;
-    bottom: 16px;
+    position: fixed;
+    bottom: calc(max(10px, env(safe-area-inset-bottom)));
     top: auto;
-    left: auto;
-    right: auto;
+    left: 12px;
+    right: 12px;
     transform: none;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
   }
 
   .controls__hint {
     display: none;
   }
 
-  .metrics-grid,
-  .governance-grid,
-  .shield-grid,
-  .risk-grid,
-  .architecture__lane,
-  .architecture__lane--split,
-  .timeline,
-  .timeline__item,
-  .closing-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 680px) {
-  .hud,
-  .controls {
-    left: 14px;
-    right: 14px;
+  .control-button {
+    flex: 1 1 0;
+    padding: 12px 16px;
   }
 
   .hud {
+    left: 12px;
+    right: 12px;
+    top: max(10px, env(safe-area-inset-top));
+    gap: 10px;
     flex-direction: column;
-    gap: 12px;
     align-items: stretch;
   }
 
-  .hud__status,
-  .controls {
+  .hud__brand,
+  .hud__status {
     min-width: 0;
+    padding: 12px 14px;
+    border-radius: 22px;
   }
 
-  .controls {
-    left: 14px;
-    right: 14px;
-    top: auto;
-    bottom: 16px;
-    transform: none;
-    justify-content: flex-end;
-    flex-direction: row;
+  .hud__brand {
+    gap: 12px;
+  }
+
+  .hud__brand-copy strong {
+    font-size: 0.98rem;
+    line-height: 1.2;
   }
 
   .progress-shell {
     width: 100%;
+  }
+
+  .slide__content {
+    min-height: auto;
+    gap: 18px;
+  }
+
+  .slide__content--hero,
+  .slide__content--closing,
+  .slide__content--hero .hero-copy {
+    gap: 14px;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
   }
 
   .hero-grid,
@@ -968,8 +979,114 @@ button {
   .stack-columns,
   .roadmap,
   .skills-board,
-  .next-steps {
+  .next-steps,
+  .metrics-grid,
+  .governance-grid,
+  .shield-grid,
+  .risk-grid,
+  .architecture__lane,
+  .architecture__lane--split,
+  .timeline,
+  .closing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .slide__content--hero .display {
+    font-size: clamp(2.45rem, 10vw, 3.8rem);
+    max-width: 8.5ch;
+  }
+
+  .slide__content--hero .lede,
+  .section-heading p,
+  .hero-brandmark p {
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .section-heading {
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .hero-card,
+  .metric-card,
+  .governance-card,
+  .shield-card,
+  .risk-card,
+  .stack-column,
+  .formula-card,
+  .skill-cluster,
+  .next-step,
+  .closing-grid > div,
+  .insight-card,
+  .roadmap-step,
+  .timeline__item {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .hero-brandmark {
+    gap: 10px;
+  }
+
+  .hero-brandmark__frame {
+    max-width: 240px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .hero-brandmark__headline {
+    font-size: 1.08rem;
+  }
+
+  .hero-partner-logo {
+    max-width: 250px;
+    padding: 10px 12px;
+  }
+
+  .hero-orbit span,
+  .policy-strip,
+  .architecture__footer span {
+    padding: 8px 12px;
+  }
+
+  .formula-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .formula-arrow {
+    transform: rotate(90deg);
+  }
+
+  .closing-panel h2 {
+    font-size: clamp(2.3rem, 10vw, 3.6rem);
+  }
+}
+
+@media (max-width: 680px) {
+  .deck-shell {
+    padding:
+      calc(max(10px, env(safe-area-inset-top)) + 90px)
+      10px
+      calc(max(10px, env(safe-area-inset-bottom)) + 78px);
+  }
+
+  .slide,
+  .slide[data-title="Title"] {
+    padding:
+      18px
+      16px
+      30px;
+  }
+
+  .hud,
+  .controls {
+    left: 10px;
+    right: 10px;
   }
 
   .hud__brand {
@@ -977,17 +1094,16 @@ button {
   }
 
   .hud__logo {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
 
-  .display {
-    font-size: clamp(2.8rem, 12vw, 4.4rem);
+  .slide__content--hero .display {
+    font-size: clamp(2.2rem, 11vw, 3.3rem);
   }
 
-  .section-heading {
-    flex-direction: column;
-    gap: 8px;
+  .control-button {
+    padding: 11px 14px;
   }
 }
 
