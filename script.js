@@ -39,9 +39,14 @@ function syncHash(index) {
   }
 }
 
-function activateSlide(index) {
+function activateSlide(index, options = {}) {
+  const { instant = false } = options;
   const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
   currentIndex = nextIndex;
+
+  if (instant) {
+    document.documentElement.classList.add("is-instant");
+  }
 
   slides.forEach((slide, slideIndex) => {
     slide.classList.toggle("is-active", slideIndex === nextIndex);
@@ -51,6 +56,12 @@ function activateSlide(index) {
   updateHud(nextIndex);
   syncHash(nextIndex);
   slides[nextIndex].scrollTop = 0;
+
+  if (instant) {
+    window.requestAnimationFrame(() => {
+      document.documentElement.classList.remove("is-instant");
+    });
+  }
 }
 
 function moveSlides(delta) {
@@ -121,7 +132,7 @@ function handleTouchEnd() {
 function setSlideFromHash() {
   const match = location.hash.match(/slide-(\d+)/);
   const hashIndex = match ? Number(match[1]) - 1 : 0;
-  activateSlide(Number.isNaN(hashIndex) ? 0 : hashIndex);
+  activateSlide(Number.isNaN(hashIndex) ? 0 : hashIndex, { instant: true });
 }
 
 buildDots();
