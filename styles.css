@@ -552,6 +552,15 @@ button {
   margin: 10px 0 14px;
 }
 
+.pricing-amount {
+  display: block;
+  margin: 14px 0 16px;
+  font-family: var(--display-font);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1;
+  color: var(--text);
+}
+
 .metric-bar {
   height: 10px;
   margin-bottom: 16px;
