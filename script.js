@@ -50,12 +50,7 @@ function activateSlide(index) {
 
   updateHud(nextIndex);
   syncHash(nextIndex);
-
-  if (!isMobileLayout()) {
-    slides[nextIndex].scrollTop = 0;
-  } else {
-    slides[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  slides[nextIndex].scrollTop = 0;
 }
 
 function moveSlides(delta) {
@@ -116,7 +111,7 @@ function handleTouchMove(event) {
 }
 
 function handleTouchEnd() {
-  if (Math.abs(touchDeltaX) < 50 || isMobileLayout()) {
+  if (Math.abs(touchDeltaX) < 50) {
     return;
   }
 
