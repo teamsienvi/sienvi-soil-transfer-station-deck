@@ -903,6 +903,10 @@ button {
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    transform: none;
+    transition:
+      opacity 320ms ease,
+      visibility 320ms ease;
   }
 
   .slide[data-title="Title"] {
@@ -1070,6 +1074,10 @@ button {
 
   .closing-panel h2 {
     font-size: clamp(2.3rem, 10vw, 3.6rem);
+  }
+
+  .slide.is-before {
+    transform: none;
   }
 }
 
